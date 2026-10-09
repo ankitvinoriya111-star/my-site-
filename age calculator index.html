@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Age Calculator</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#f4f6f8;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}
+.card{background:#fff;padding:2rem;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08);width:100%;max-width:400px}
+h1{margin:0 0 1.5rem;font-size:1.5rem;text-align:center}
+label{display:block;margin-bottom:.4rem;font-weight:600}
+input{width:100%;padding:.7rem;border:1px solid #ccc;border-radius:8px;font-size:1rem;margin-bottom:1rem;box-sizing:border-box}
+button{width:100%;padding:.8rem;border:none;border-radius:8px;background:#2563eb;color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+button:hover{background:#1d4ed8}
+.result{margin-top:1.5rem;padding:1rem;background:#eff6ff;border-radius:8px;text-align:center;font-weight:600;display:none}
+.error{color:#b91c1c;background:#fee2e2}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Age Calculator</h1>
+<label for="dob">Date of birth</label>
+<input type="date" id="dob" />
+<button onclick="calculateAge()">Calculate age</button>
+<div id="result" class="result"></div>
+</div>
+<script>
+function calculateAge(){
+const dobInput=document.getElementById("dob").value;
+const result=document.getElementById("result");
+result.style.display="block";result.classList.remove("error");
+if(!dobInput){result.textContent="Please select your date of birth.";result.classList.add("error");return;}
+const dob=new Date(dobInput+"T00:00:00");
+const today=new Date();
+if(dob>today){result.textContent="Date of birth cannot be in the future.";result.classList.add("error");return;}
+let years=today.getFullYear()-dob.getFullYear();
+let months=today.getMonth()-dob.getMonth();
+let days=today.getDate()-dob.getDate();
+if(days<0){months--;const prev=new Date(today.getFullYear(),today.getMonth(),0);days+=prev.getDate();}
+if(months<0){years--;months+=12;}
+result.textContent=`You are ${years} years, ${months} months, and ${days} days old.`;
+}
+</script>
+</body>
+</html>
